@@ -59,7 +59,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 
 - `c`/`a`
 - designates whether the record is a collection or an attribute
-- an attribute has to have `nest` at least `1` (and thus being in some collection)
+- an attribute has to have `nest >= 1` (and thus being in some collection)
 
 ***nest*** (nesting depth)
 
@@ -86,7 +86,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
         - both segment separators (dots and colons) can be arbitrarily used in one path
     - note, that reference paths contain incompatible characters e.g. with SQL
     - a reference collection can't have any additional nor any less child attributes nor child collections
-    - a reference attribute has to have `nest` at least `1` (and thus being in some collection)
+    - a reference attribute has to have `nest >= 1` (and thus being in some collection)
     - all attributes of a reference collection (these attributes are nowhere visible) shall be the same as the referenced collection except for `nest` (which is relatively recomputed) and except for `id` (which is relatively cut and then prefixed by the reference collection path)
     - note, that this referencing doesn't say anything about the data the schema describes as referencing just mimics the referred record schema (including it's content, this content's content, ...)
     - recursion (both direct and indirect) is allowed (thus it's easy to model e.g. tree structures – even infinitely nested ones)
