@@ -1,0 +1,60 @@
+digraph life_cycle {
+  //rankdir=LR  // draw graph horizontally
+  //overlap=false
+
+  // collection
+
+  not_exist -> exist [label="add"]  // , weight=0
+  not_exist -> untouched [label="no_add_rem"]
+  not_exist -> not_exist [label="rem"]
+
+  exist -> not_exist [label="rem"]
+  exist -> untouched [label="no_add_rem"]
+  exist -> exist [label="add"]
+
+  untouched -> exist [label="add"]
+  untouched -> not_exist [label="rem"]
+  untouched -> untouched [label="no_add_rem"]
+
+  // attribute
+
+  //no_exist -> no_access [label="add + no_rw"]
+  //no_exist -> access [label="add + read"]
+  //no_exist -> edited [label="add + write"]
+
+  //no_access -> no_exist [label="rem"]
+  no_access -> no_access [label="no_rw"]
+  no_access -> access [label="read"]
+  no_access -> edited [label="write"]
+
+  //access -> no_exist [label="rem"]
+  access -> no_access [label="no_rw"]
+  access -> access [label="read"]
+  access -> edited [label="write"]
+
+  //edited -> no_exist [label="rem"]
+  edited -> no_access [label="no_rw"]
+  edited -> access [label="read"]
+  edited -> edited [label="write"]
+}
+/* digraph attribute {
+  no_exist -> no_access [label="add + no_rw"]  // , weight=0
+  no_exist -> access [label="add + read"]
+  no_exist -> edited [label="add + write"]
+
+  no_access -> no_exist [label="rem"]
+  no_access -> no_access [label="no_rw"]
+  no_access -> access [label="read"]
+  no_access -> edited [label="write"]
+
+  access -> no_exist [label="rem"]
+  access -> no_access [label="no_rw"]
+  access -> access [label="read"]
+  access -> edited [label="write"]
+
+  edited -> no_exist [label="rem"]
+  edited -> no_access [label="no_rw"]
+  edited -> access [label="read"]
+  edited -> edited [label="write"]
+}
+*/
