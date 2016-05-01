@@ -108,6 +108,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
     - `write` implies also `read`
     - options are mutually exclusive
     - warn in case this role/person has on this attribute `no_rw`/`read` and some of the parent collections are `rem`/`add_rem`
+
 <!--    - warn in case someone added a new attribute to the ERD view, because it's by default `no_rw` and not used anywhere -->
 
 ***init*** (initial value)
