@@ -12,7 +12,7 @@ The main goal of CSDDM is to define firm detailed boundaries for implementation 
 
 The model is structured as a **tree of items** (nodes and leafs), whereas each item has it's own set of **properties**. The model is depicted in a form of a table for better understandability. Table depiction is also the recommended one.
 
-*Data model for an activity A1 of a process P1*
+*Data model for a task T1 of a process P1*
 
 kind | nest | id | perm | constr | init | sync | consis | quant | imp
 ---  | ---  | ---| ---  | ---    | ---  | ---  | ---    | ---   | ---
@@ -29,7 +29,7 @@ c | 1 |     collection03 | add | - | - | hardlink | best-effort | 0 | medium
 a | 2 |         attr00 | write | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
 a | 2 |         attr01 | no_rw | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
 
-*Data model for an activity A2 (referencing content of A1) of the same process P1*
+*Data model for a task T2 (referencing content of T1) of the same process P1*
 
 kind | nest | id | perm | constr | init | sync | consis | quant | imp
 ---  | ---  | ---| ---  | ---    | ---  | ---  | ---    | ---   | ---
@@ -45,7 +45,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 
 ### Terminology
 
-***activity*** is a bounded work to be done; if this work needs some data, it's represented by a set of collections or references
+***task*** is a bounded work to be done; if this work needs some data, it's represented by a set of collections or references
 
 ***collection*** is a structural description of a collection of attributes or nested collections
 
@@ -63,7 +63,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 
 ***nest*** (nesting depth)
 
-- integer designating how much the record is nested in the activity namespace
+- integer designating how much the record is nested in the task namespace
 
 ***id*** (identifier)
 
