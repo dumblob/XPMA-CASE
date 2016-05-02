@@ -60,10 +60,12 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 - `c`/`a`
 - designates whether the record is a collection or an attribute
 - an attribute has to have `nest >= 1` (and thus being in some collection)
+- may become a helper property (to make the specification of CSDDM more readable) and thus will not be part of the model any more in case we will disallow empty collections
 
 ***nest*** (nesting depth)
 
 - integer designating how much the record is nested in the task namespace
+- it is just a helper property (to make the specification of CSDDM more readable) and thus is not part of the model
 
 ***id*** (identifier)
 
