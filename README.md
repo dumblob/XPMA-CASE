@@ -225,5 +225,6 @@ kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant 
 ## Remarks
 
 * TODO use case "visualization of map data showing a path made from surrounding data" (i.e. a concept of simple combining/splitting data - maybe generalize as transformation?)
+* use-case: dialog-based systems (very convenient for visually-impaired people), because it's nothing else than an explicit process with data
 * in XPM there is no query language (data can be easily filtered and changed in a service/script task before they are used in a manual task)
 * SSADM (entity life cycle) - weighting of the process and data modeling (eighties)
