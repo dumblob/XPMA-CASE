@@ -134,6 +134,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
         - shall maintain the consistent part of the DB schema (i.e. attributes with `full` in the ***consis*** field) consistent all the time
         - shall support dry-run execution (e.g. with some special instruction)
         - the transitional DDL might be a list of all consecutive events triggered by user input when modeling in a CASE tool
+        - shall maintain whole history of removed records (and their history as well) in the schema in a way, that in the DB all the data will be by default just moved to a separate unreachable place (might be a totally different DB - e.g. glacier)
 - a survey finding out which types exist across most used and perspective DBs (to provide basis for definition of a minimal set of optimized types to avoid stored procedures etc.) is planned
 - it shall be easy to add a new constraint set in a CASE tool
 - each set is defined as
