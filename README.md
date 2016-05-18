@@ -203,19 +203,19 @@ The following rules are sorted according to their priority (highest at the top).
 *Required rules* (not satisfying them produces **ERROR**)
 
 ~~~~
-kind | nest | id | perm | constr | init | sync | consis | quant | imp
----  | ---  | ---| ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | * | add_rem | - | - | hardlink | loose | 0 | medium
-a | 1 | * | no_rw | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis | quant | imp
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
+c | 0 | * | add_rem | - | - | - | hardlink | loose | 0 | medium
+a | 1 | * | no_rw | no_procs_yes_user | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
 ~~~~
 
 *Recommended rules* (not satisfying them produces **WARNING**)
 
 ~~~~
 (
-kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant = | imp =
+kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis = | quant = | imp =
 &&
-kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant = | imp =
+kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis = | quant = | imp =
 )
 (add || add_rem) && (all attributes from this collection are no_rw)  # user won't see what he/she added
 ~~~~
