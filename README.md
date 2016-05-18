@@ -179,20 +179,6 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 - expected importance in the context of all other records used in this particular BPMN Task
 - useful for auto caching, UI auto construction, etc.
 
-### Remarks
-
-- CRUD split among collection and attributes (CRD on collections; RU on attributes)
-    - problem of grouping attributes into collections
-        - because CRUD builds on SQL syntax and semantics, which in turn is not consistent (a mixture between pure relational ordering, non-relational ordering supporting ordering and non-relational single-value outputs)
-- relationship to USE-CASE diagrams: USE-CASE is a bunch of processes operating with the same data
-- BPMN 2.0 weakness – it seems, it doesn't support workers interchange tasks
-- ***constr*** `eval` is not a description of an end state (used e.g. in UNIX `diff`), because sometimes it's necessary to specify a nonoptimal list of steps to reach the goal; also, this allows e.g. virtually performing the list of steps, diffing the old and new schemes and running an optimal-path-finding algorithm
-- Unique combination of a ROLE + BPMN TASK + STARTING STATE (highest permission – warn in case of inconsistency)
-- modelling of legislation (law acts) as processes with data
-- specify, that the particular attribute/collection schema should not be visualized, although it's rw
-    - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
-    - derive from operational statistics (e.g. recording of user feedback in UI – "has manually hidden attribute X in a table showing collection Y")
-
 ### Rules for combinations of properties
 
 The following set of rules describes all possible valid combinations of tree item properties settings. Different backend engines implementing CSDDM can though provide their own set of rules matching capabilities of the particular engine in case the engine does not fully support the default set of rules.
@@ -223,9 +209,31 @@ kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant 
 (add || add_rem) && (all attributes from this collection are no_rw)  # user won't see what he/she added
 ~~~~
 
-## Remarks
+### Best Practices
 
-* TODO use case "visualization of map data showing a path made from surrounding data" (i.e. a concept of simple combining/splitting data - maybe generalize as transformation?)
-* use-case: dialog-based systems (very convenient for visually-impaired people), because it's nothing else than an explicit process with data
-* in XPM there is no query language (data can be easily filtered and changed in a service/script task before they are used in a manual task)
-* SSADM (entity life cycle) - weighting of the process and data modeling (eighties)
+- do not model transformations (combining & splitting) of modeled data as separate records, because they're not semantically part of the data model
+    - e.g. translations - there should be one and only one language in the model representing the "default" content and translations should be put e.g. to a separate global collection and they should be used (overwrite the "default" content) in run time (of course, it makes sense to cache them - i.e. for translatable items use reference to the particular "default" translation record and use `eval` to change the reference based on user settins in run time)
+
+### Remarks
+
+- in XPM there is no query language (data can be easily filtered and changed in a service/script task before they are used in a manual task)
+- CRUD split among collection and attributes (CRD on collections; RU on attributes)
+    - problem of grouping attributes into collections
+        - because CRUD builds on SQL syntax and semantics, which in turn is not consistent (a mixture between pure relational ordering, non-relational ordering supporting ordering and non-relational single-value outputs)
+- relationship to USE-CASE diagrams: USE-CASE is a bunch of processes operating with the same data
+- BPMN 2.0 weakness: it doesn't support workers interchange tasks
+- ***constr*** `eval` is not a description of an end state (used e.g. in UNIX `diff`), because sometimes it's necessary to specify a nonoptimal list of steps to reach the goal; also, this allows e.g. virtually performing the list of steps, diffing the old and new schemes and running an optimal-path-finding algorithm
+- Unique combination of a ROLE + BPMN TASK + STARTING STATE (highest permission – warn in case of inconsistency)
+- modelling of legislation (law acts) as processes with data
+- SSADM (entity life cycle) - weighting of the process and data modeling (eighties)
+
+### TODO
+
+- CSDDM 1.1
+    - specify, that the particular attribute/collection schema should not be visualized, although it's rw
+        - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
+        - derive from operational statistics (e.g. recording of user feedback in UI – "has manually hidden attribute X in a table showing collection Y")
+- demo use cases
+    - transformation: visualization of map data showing a path made from surrounding data
+    - transformation: language translations of visual outputs
+    - dialog-based systems (very convenient for visually-impaired people), because it's nothing else than an explicit process with data
