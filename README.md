@@ -14,30 +14,30 @@ The model is structured as a **tree of items** (nodes and leafs), whereas each i
 
 *Data model for a task T1 of a process P1*
 
-kind | nest | id | perm | constr | init | sync | consis | quant | imp
----  | ---  | ---| ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | collection00 | add_rem | - | - | hardlink | best-effort | 0 | medium
-a | 1 |     attr00 | no_rw | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
-a | 1 |     attr01 | write | int64 | 0 | hardlink | best-effort | 0 | medium
-c | 1 |     collection00 | add_rem | - | - | hardlink | best-effort | 0 | medium
-c | 0 | collection01 | add | - | - | hardlink | best-effort | 0 | medium
-a | 1 |     attr00 | read | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
-a | 1 |     attr01 | read | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
-c | 1 |     collection02 | rem | - | - | hardlink | best-effort | 0 | medium
-a | 2 |         attr00 | write | int64 | 0 | hardlink | best-effort | 0 | medium
-c | 1 |     collection03 | add | - | - | hardlink | best-effort | 0 | medium
-a | 2 |         attr00 | write | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
-a | 2 |         attr01 | no_rw | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis | quant | imp
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
+c | 0 | collection00 | add_rem | - | - | - | hardlink | best-effort | 0 | medium
+a | 1 |     attr00 | no_rw | none | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+a | 1 |     attr01 | write | none | int64 | 0 | hardlink | best-effort | 0 | medium
+c | 1 |     collection00 | add_rem | - | - | - | hardlink | best-effort | 0 | medium
+c | 0 | collection01 | add | - | - | - | hardlink | best-effort | 0 | medium
+a | 1 |     attr00 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+a | 1 |     attr01 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+c | 1 |     collection02 | rem | - | - | - | hardlink | best-effort | 0 | medium
+a | 2 |         attr00 | write | none | int64 | 0 | hardlink | best-effort | 0 | medium
+c | 1 |     collection03 | add | - | - | - | hardlink | best-effort | 0 | medium
+a | 2 |         attr00 | write | none | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+a | 2 |         attr01 | no_rw | none | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
 
 *Data model for a task T2 (referencing content of T1) of the same process P1*
 
-kind | nest | id | perm | constr | init | sync | consis | quant | imp
----  | ---  | ---| ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | collection05 | add_rem | - | - | hardlink | loose | 0 | medium
-a | 1 |     attr00 | write | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
-a | 1 |     .collection00.attr01 | write | int64 | 0 | hardlink | best-effort | 0 | medium
-a | 1 |     .collection01.collection02.attr00 | read | int64 | 0 | hardlink | loose | 0 | medium
-c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis | quant | imp
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
+c | 0 | collection05 | add_rem | - | - | - | hardlink | loose | 0 | medium
+a | 1 |     attr00 | write | none | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+a | 1 |     .collection00.attr01 | write | none | int64 | 0 | hardlink | best-effort | 0 | medium
+a | 1 |     .collection01.collection02.attr00 | read | none | int64 | 0 | hardlink | loose | 0 | medium
+c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | loose | 0 | medium
 
 *Collection and attribute life cycle*
 
@@ -111,13 +111,18 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
     - options are mutually exclusive
     - warn in case this role/person has on this attribute `no_rw`/`read` and some of the parent collections are `rem`/`add_rem`
 
-<!--    - warn in case someone added a new attribute to the ERD view, because it's by default `no_rw` and not used anywhere -->
+***uniq*** (uniqueness of the attribute based on the tuple *task role* and *process instance*)
 
-***init*** (initial value)
-
-- in compliance with the chosen constraint
-- is constant (e.g. some number) or dynamic (e.g. current date and time)
-- short turing-complete definition (preferrably a readable existing programming language) returning a constraint-satisfying value (the definition shall be a formal notation of the algorithm, but not necessarily a fully functional program)
+- sets the uniqueness of data described by the attribute among all attribute data used in the system
+- `none`/`yes_procs_not_roles`/`not_procs_yes_roles`/`every`
+- `none` attribute data are the same for all processes instances and for all roles having appropriate permissions
+    - e.g. ordinary DB data
+- `yes_procs_no_roles` attribute data differ for processes instances, but stay the same for all roles
+    - e.g. random ID generated for the process (all roles shall see the same ID)
+- `no_procs_yes_roles` attribute data differ between roles, but stay the same all processes instances
+    - e.g. language & translation settings
+- `every` attribute data differ between roles and processes instances (i.e. data for one swim lane)
+    - e.g. temporary storage for outcomes of a user input
 
 ***constr*** (constraints set)
 
@@ -150,6 +155,12 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
         - this code shall use a general (platform agnostic) stream interface (disassembling into blocks of data similar to, but more efficient than, POSIX shell pipe streams)
         - in case the code is written in a real programming language and is in accordance with that particular language specification (including also thread-safety etc.), it shall be directly executable on a system, which that particular language supports (e.g. has installed)
 
+***init*** (initial value)
+
+- in compliance with the chosen constraint
+- is constant (e.g. some number) or dynamic (e.g. current date and time)
+- short turing-complete definition (preferrably a readable existing programming language) returning a constraint-satisfying value (the definition shall be a formal notation of the algorithm, but not necessarily a fully functional program)
+
 ***sync*** (synchronization to a referenced record)
 
 - `once`/`copy`/`cache`/`hardlink`
@@ -165,7 +176,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 - `loose` does guarantee consistency only at certain time points (e.g. periodically every midnight a consistency making operation is run; or just randomly when the administrator decides to run a consistency making operation manually)
 - `none` does guarantee, that the consistency won't be reassured at any time (in other words, it'll be copied only once and only once at the beginning during the whole lifetime)
 - a collection itself has the lowest consistency level of each of it's non-reference attributes or subcollections
-- a reference to a collection or attribute can have the same or worse consistency level
+- a reference to a collection or an attribute can have the same or worse consistency level
 
 ***quant*** (quantity)
 
@@ -176,7 +187,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | hardlink | loose | 0 
 ***imp*** (importance)
 
 - `very_low`/`low`/`medium`/`high`/`very_heigh`
-- expected importance in the context of all other records used in this particular BPMN Task
+- expected importance in the context of all other records used in this particular task
 - useful for auto caching, UI auto construction, etc.
 
 ### Rules for combinations of properties
@@ -211,8 +222,13 @@ kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant 
 
 ### Best Practices
 
+- *uniq*
+    - `none` e.g. ordinary DB data
+    - `yes_procs_no_roles` e.g. random ID generated for the process (all roles shall see the same ID)
+    - `no_procs_yes_roles` e.g. language & translation settings
+    - `every` e.g. temporary storage for outcomes of a user input
 - do not model transformations (combining & splitting) of modeled data as separate records, because they're not semantically part of the data model
-    - e.g. translations - there should be one and only one language in the model representing the "default" content and translations should be put e.g. to a separate global collection and they should be used (overwrite the "default" content) in run time (of course, it makes sense to cache them - i.e. for translatable items use reference to the particular "default" translation record and use `eval` to change the reference based on user settins in run time)
+    - e.g. translations - there should be one and only one language in the model representing the "default" content (`no_procs_yes_roles`) and translations should be put e.g. to a separate global collection and they should be applied (overwrite the "default" content) in run time (e.g. using some script task)
 
 ### Remarks
 
@@ -233,7 +249,36 @@ kind = | nest = | id = | perm = | constr = | init = | sync = | consis = | quant 
     - specify, that the particular attribute/collection schema should not be visualized, although it's rw
         - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
         - derive from operational statistics (e.g. recording of user feedback in UI – "has manually hidden attribute X in a table showing collection Y")
+- XPM 1.1
+    - support transformations in the process model more subtly (it's not so much important to show translations)
+        - not to be confused with BPMN L1, L2 and L3 levels of detail
+        - e.g. to avoid creating separate task for translation fetching
+        - tag BPMN 2.0 unattended Tasks, which are just preparing data (e.g. performing non-fundamental transformations)?
+            - tagged Tasks can be easily filtered in a rough business overview
 - demo use cases
     - transformation: visualization of map data showing a path made from surrounding data
     - transformation: language translations of visual outputs
     - dialog-based systems (very convenient for visually-impaired people), because it's nothing else than an explicit process with data
+
+<!--
+XPMA CASE functional requirements
+    - FIXME see XPMA github
+    - supports basic BPMN 2.0
+        - FIXME specify the subset of elements
+    - supports full CSDDM 1.0
+        - including hints and warnings and error messages based on consistency rules
+    - switching between business view (see tagged tasks above) and all-view
+    - multiplatform (Windows, Mac OS X, Linux)
+    - when adding new records, default values of all properties will be sane and handy (should consider also surrounding data scheme)
+        - the goal is to minimize number of needed changes
+    - export and import file with model
+    - interactive hints when writing already known IDs (e.g. record names, process names)
+    - supports read-only views
+        - read-only, because these models do not support all features of XPM (i.e. of BPMN 2.0 and CSDDM 1.0)
+            - e.g. adding a new attribute to the ERD view would make it "hidden", because
+                - there is no connection to the rest of the model (e.g. not used in any task)
+                - it's by default `no_rw`
+        - use case
+        - ERD
+            - click-through on ERD gets one to the record definition and/or references
+-->
