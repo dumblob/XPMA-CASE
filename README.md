@@ -242,7 +242,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 - column DBs are recommended for implementation of CSDDM
 - XPM engine (i.e. mainly CSDDM DB) shall allow service/script tasks to:
     - programatically easily efficiently declaratively query all records specified in XDO and also perform **all** operations found in CSDDM
-        - any data transformations are done in the task itself, but the CSDDM DB might provide means to efficiently perform operations like *set* *map* *join* etc. - e.g. using Resilient Distributed Datasets [2] (not Directed Acyclic Graph engines nor MapReduce [3] because of it's high inefficiency) etc.
+        - any data transformations are done in the task itself, but the CSDDM DB might provide means to efficiently perform operations like *set* *map* *join* etc. - e.g. using Resilient Distributed Datasets [2] \(not Directed Acyclic Graph engines nor MapReduce [3] because of it's high inefficiency) etc.
         - e.g. hand over an XDO handle with appropriate methods
     - introspect the DB and the records specified in XDO
 - CRUD split among collection and attributes (CRD on collections; RU on attributes)
