@@ -91,7 +91,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
     - a reference attribute has to have `nest >= 1` (and thus being in some collection)
     - all attributes of a reference collection (these attributes are nowhere visible) shall be the same as the referenced collection except for `nest` (which is relatively recomputed) and except for `id` (which is relatively cut and then prefixed by the reference collection path)
     - note, that this referencing doesn't say anything about the data the schema describes as referencing just mimics the referred record schema (including it's content, this content's content, ...)
-    - recursion (both direct and indirect) is allowed (thus it's easy to model e.g. tree structures – even infinitely nested ones)
+    - recursion (both direct and indirect) shall be allowed (thus it shall be easy to model e.g. tree structures – even infinitely nested ones)
         - there is no need to model any stopping condition as CSDDM is just schema
         - database engines implementing CSDDM shall internally store some "stopping value" (as stopping condition) to the reference before it's filled with valid reference data
         - database engines implementing CSDDM shall support at least 1000 nested levels of recursion
@@ -181,7 +181,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - `CRDT` conflict-free replicated data type - distributed highly available instance of the data, which still guarantees synchronization (off the critical path) - e.g. Riak [7] supports it (useful for chat, maps for navigation, etc.)
 - all DB data involved in one transaction are considered as one atomic value
 - a collection denotes consistency of a transaction if any (it's initialized to the highest consistency level of each of it's non-reference attributes or subcollections); such collection transaction involves all collection's content recursively
-- a reference to a collection or an attribute can have the same or worse consistency level and it can't be changed
+- a reference to a collection or an attribute has the same consistency level as the reference collection or reference attribute respectively
 - this implies, that the underlying DB shall support accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
 
 ***quant*** (quantity)
