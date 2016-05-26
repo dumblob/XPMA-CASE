@@ -6,7 +6,7 @@ Computer Aided Software Engineering tool implementing the *XPM combined model*. 
 
 ## Complex System Data Definition Model 1.0
 
-CSDDM 1.0 is a new model of a data schema allowing formally, throughly, but still concisely describe data with properties from the top-most abstraction level - from the user interface. It is designed with coupling with process modeling in mind.
+CSDDM 1.0 is a new model of a data schema allowing formally, throughly, but still concisely describe semistructured data with properties from the top-most abstraction level - from user interface. It is designed with coupling with process modeling in mind.
 
 The main goal of CSDDM is to define firm detailed boundaries for implementation of complex systems. These are nowadays implementation-technology-dependent and thus a data model implemented in two different technologies results in totally different solutions, often strongly compromising the outcome quality, because the decision of settings of many properties is left to implementators who have no overview of the whole system and are strongly led astray by significant limitations of the chosen implementation technology - imagine Java, SQL, etc.
 
