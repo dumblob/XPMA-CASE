@@ -74,7 +74,6 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - aliases are not supported (on purpose - to stay KISS)
 - note it's only ASCII (no UTF-8 support because of compatibility)
 - is global for records with `nest = 0` (so it can appear multiple times in different BPMN 2.0 Data Objects and BPMN 2.0 Gateways)
-    - it's recommended to think through labeling strategy for identifiers first (imagine modelling SAP)
 - it represents a collection or attribute name
 - it's compatible with SQL names and URIs
 - referring to an existing record schema
@@ -228,6 +227,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 
 ### Best Practices
 
+- it is recommended to think through labeling strategy for identifiers first (imagine modelling SAP)
 - *uniq*
     - `none` e.g. ordinary DB data
     - `yes_procs_no_roles` e.g. random ID generated for the process (all roles shall see the same ID)
