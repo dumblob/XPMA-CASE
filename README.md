@@ -135,7 +135,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
     - `eval` (list of transitional DDL instructions executed when written)
         - execution guarantees COW-like change of the DB schema on success
             - useful e.g. when changing one attribute constraints set from `none` to `HTML` (type check is run in parallel on all data corresponding to the attribute and it might fail)
-        - shall maintain the consistent part of the DB schema (i.e. attributes with `full` in the ***consis*** field) consistent all the time
+        - shall maintain consistentcy of the DB schema (especially with regards to **consis** attribute) all the time
         - shall support dry-run execution (e.g. with some special instruction)
         - the transitional DDL might be a list of all consecutive events triggered by user input when modeling in a CASE tool
         - shall maintain whole history of removed records (and their history as well) in the schema in a way, that in the DB all the data will be by default just moved to a separate unreachable place (might be a totally different DB - e.g. glacier)
