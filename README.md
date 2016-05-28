@@ -147,7 +147,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
     - version (semantic versioning with backward-compatibility extension: <https://github.com/mojombo/semver/issues/163> )
     - description how to visually interpret the contained value (serves also as a hint how to auto-construct UI); shall provide at least
         - expected amount of the value data visible at the same time
-            - none/small/medium/large/full
+            - `none`/`small`/`medium`/`large`/`full`
             - e.g. string with a name will be smaller than string with a book content, picture or movie makes sense only if it's fully visible
     - default initial value
     - short turing-complete pseudo-code (preferrably a readable existing programming language) checking correctness on input and output from the DB (the code shall be only a formal notation of the check, but not necessarily a fully functional program)
