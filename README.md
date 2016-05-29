@@ -179,7 +179,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - `read_lin` like `read`, but only with linearizable consistency
 - `CRDT` conflict-free replicated data type - distributed highly available instance of the data, which still guarantees synchronization (off the critical path) - e.g. Riak [7] supports it (useful for chat, maps for navigation, etc.)
 - all DB data involved in one transaction are considered as one atomic value
-- a collection denotes consistency of a transaction if any (it's initialized to the highest consistency level of each of it's non-reference attributes or subcollections); such collection transaction involves all collection's content recursively
+- ***consis*** of a collection denotes consistency of a transaction if any (it's initialized to the highest consistency level of each of it's attributes or subcollections); such collection transaction involves all collection's content recursively
 - a reference to a collection or an attribute has the same consistency level as the reference collection or reference attribute respectively
 - this implies, that the underlying DB shall support accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
 
