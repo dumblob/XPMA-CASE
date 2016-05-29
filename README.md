@@ -180,7 +180,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - `CRDT` conflict-free replicated data type - distributed highly available instance of the data, which still guarantees synchronization (off the critical path) - e.g. Riak [7] supports it (useful for chat, maps for navigation, etc.)
 - all DB data involved in one transaction are considered as one atomic value
 - in case of collection, ***consis*** denotes a minimal consistency level of a possible transaction involving this collection (the default value is the highest consistency level from the collection's attributes and attributes of it's subcollections recursively)
-- a reference to a collection or an attribute has the same consistency level as the reference collection or reference attribute respectively
+- a reference to a collection or an attribute has the same consistency level as the referenced collection or referenced attribute respectively
 - this implies, that the underlying DB shall support accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
 
 ***quant*** (quantity)
