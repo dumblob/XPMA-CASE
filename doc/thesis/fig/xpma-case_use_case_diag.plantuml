@@ -1,0 +1,15 @@
+@startuml
+'left to right direction
+actor Analytik as A
+:A: -up-> (ulož\nmodel)
+:A: -up-> (otevři\nmodel)
+:A: -up-> (vytvoř\nnový\nmodel)
+
+
+
+
+:A: -left-> (zobraz\nERD)
+:A: -down-> (zobraz\nUse case)
+:A: -right-> (modeluj\nprocesy)
+:A: -down-> (modeluj\ndata\npro aktivity)
+@enduml
