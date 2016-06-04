@@ -261,6 +261,8 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
         - derive from operational statistics (e.g. recording of user feedback in a "developer-enabled" UI – "has manually hidden attribute X in a table showing collection Y")
 - XPM 1.1
+    - add better/advanced support (or a best practise) for *live* & *stream* data (e.g. oscillator chart)
+        - it is against the persistence focus of XPM/CSDDM, but is very useful
     - rethink XDO to make it more tightly bound to tasks
         - introduce a clickable "tag" symbol applicable to all types of tasks and abandon the special data object completely?
     - support transformations in the process model more subtly (e.g. it's not important to show tasks performing language translation)
