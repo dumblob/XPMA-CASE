@@ -181,7 +181,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - all DB data involved in one transaction are considered as one atomic value
 - in case of collection, ***consis*** denotes a minimal consistency level of a possible transaction involving this collection (the default value is the highest consistency level from the collection's attributes and attributes of it's subcollections recursively)
 - a reference to a collection or an attribute has the same consistency level as the referenced collection or referenced attribute respectively
-- this implies, that the underlying DB shall support accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
+- this implies, that the underlying DB shall support e.g. [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control ) [8] and thus accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
 
 ***quant*** (quantity)
 
@@ -285,6 +285,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 1. Herlihy, Maurice P.; Wing, Jeannette M. "Linearizability: A Correctness Condition for Concurrent Objects". ACM Transactions on Programming Languages and Systems 12 (3): 463–492. 1990.
 1. Lakshman, Avinash; Malik, Prashant. Cassandra - A Decentralized Structured Storage System. cs.cornell.edu. 2009-08-15.
 1. RIAK PRODUCTS. On-line on http://basho.com/products/#riak . 2016-05-25.
+1. Gerhard Weikum, Gottfried Vossen. Transactional information systems: theory, algorithms, and the practice of concurrency control and recovery. Morgan Kaufmann. 2002. ISBN 1-55860-508-8
 
 <!--
 XPMA CASE functional requirements
