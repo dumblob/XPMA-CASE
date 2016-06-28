@@ -270,6 +270,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - useful e.g. to avoid creating separate task for translation fetching
         - tag BPMN 2.0 unattended Tasks, which are just preparing data (e.g. performing non-fundamental transformations)?
             - tagged Tasks can be easily filtered in a rough business overview
+    - add specification for business rules and allow auto-derivation of processes (i.e. suboptimal solution for steps conforming to the given constraints)
 - demo use cases
     - transformation: visualization of map data showing a path made from "surrounding" data
     - transformation: language translations of visual outputs
