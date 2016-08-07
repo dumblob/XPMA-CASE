@@ -277,6 +277,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
             - how about persistence ("when/which to persist") criteria for high-rate data in an attribute?
             - data event-/change- based (push) notifications (filtered/sampled_with_lower_frequency in case of high-rate)
                 - for high rates QoS from network packets (if any) could be propagated and counted into the probability of packet/sample throw-away
+        - each record stream has vector buffer with capacity for one and only one record value and this value is forever immutable, thus any change adds a new value "behind" the current "old" value and shifts it away (therefore tasks needing the "old" value will proceed with the "old" value, but newly started tasks will work with the newly added value)
     - rethink XDO to make it more tightly bound to tasks
         - introduce a clickable "tag" symbol applicable to all types of tasks and abandon the special data object completely?
     - support transformations in the process model more subtly (e.g. it's not important to show tasks performing language translation)
