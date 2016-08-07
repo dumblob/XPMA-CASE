@@ -183,7 +183,7 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT
 - all DB data involved in one transaction are considered as one atomic value
 - in case of collection, ***consis*** denotes a minimal consistency level of a possible transaction involving this collection (the default value is the highest consistency level from the collection's attributes and attributes of it's subcollections recursively)
 - a reference to a collection or an attribute has the same consistency level as the referenced collection or referenced attribute respectively
-- this implies, that the underlying DB shall support e.g. [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control ) [8] and thus accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
+- this implies, that the underlying DB shall support e.g. [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control ) [8] and thus accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Spanner [1])
 
 #### Optional properties
 
@@ -212,19 +212,19 @@ The following rules are sorted according to their priority (highest at the top).
 *Required rules* (not satisfying them produces **ERROR**)
 
 ~~~~
-kind | nest | id | perm | uniq | constr | init | sync | consis | quant | imp
----  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | * | add_rem | - | - | - | hardlink | loose | 0 | medium
-a | 1 | * | no_rw | no_procs_yes_user | string_ascii_printable | "" | hardlink | best-effort | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---
+c | 0 | * | add_rem | - | - | - | hardlink | read
+a | 1 | * | no_rw | no_procs_yes_user | string_ascii_printable | "" | hardlink | write
 ~~~~
 
 *Recommended rules* (not satisfying them produces **WARNING**)
 
 ~~~~
 (
-kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis = | quant = | imp =
+kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 &&
-kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis = | quant = | imp =
+kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 )
 (add || add_rem) && (all attributes from this collection are no_rw)  # user won't see what he/she added
 ~~~~
@@ -294,15 +294,15 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 
 ## References
 
-1. Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, Robert E. Gruber. Bigtable: A Distributed Storage System for Structured Data. In OSDI 2006
-1. Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica. Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing. NSDI 2012. April 2012.
-1. DEAN, J., AND GHEMAWAT, S. MapReduce: Simplified data processing on large clusters. In Proc. of the 6th OSDI (Dec. 2004), pp. 137–150.
-1. Leslie Lamport, Eli Gafni. Disk Paxos. Distributed Computing 16, 1 (2003) 1-20.
-1. Herlihy, Maurice P.; Wing, Jeannette M. "Linearizability: A Correctness Condition for Concurrent Objects". ACM Transactions on Programming Languages and Systems 12 (3): 463–492. 1990.
-1. Lakshman, Avinash; Malik, Prashant. Cassandra - A Decentralized Structured Storage System. cs.cornell.edu. 2009-08-15.
-1. RIAK PRODUCTS. On-line on http://basho.com/products/#riak . 2016-05-25.
-1. Gerhard Weikum, Gottfried Vossen. Transactional information systems: theory, algorithms, and the practice of concurrency control and recovery. Morgan Kaufmann. 2002. ISBN 1-55860-508-8
-1. S. Chandrasekaran, O. Cooper, A. Deshpande, M. J. Franklin, J. M. Hellerstein, W. Hong, S. Krishnamurthy, S. R. Madden, F. Reiss, and M. A. Shah. Telegraphcq: continuous dataflow processing. In Proceedings of the 2003 ACM SIGMOD international conference on Management of data, pages 668–668. ACM, 2003.
+1. James C. Corbett, Jeffrey Dean, Michael Epstein, Andrew Fikes, Christopher Frost, J. J. Furman, Sanjay Ghemawat, Andrey Gubarev, Christopher Heiser, Peter Hochschild, Wilson Hsieh, Sebastian Kanthak, Eugene Kogan, Hongyi Li, Alexander Lloyd, Sergey Melnik, David Mwaura, David Nagle, Sean Quinlan, Rajesh Rao, Lindsay Rolig, Yasushi Saito, Michal Szymaniak, Christopher Taylor, Ruth Wang, and Dale Woodford. 2013. **Spanner: Google’s Globally Distributed Database.** ACM Trans. Comput. Syst. 31, 3, Article 8 (August 2013), 22 pages. DOI=http://dx.doi.org/10.1145/2491245
+1. Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica. **Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing.** NSDI 2012. April 2012.
+1. DEAN, J., AND GHEMAWAT, S. **MapReduce: Simplified data processing on large clusters.** In Proc. of the 6th OSDI (Dec. 2004), pp. 137–150.
+1. Leslie Lamport, Eli Gafni. **Disk Paxos.** Distributed Computing 16, 1 (2003) 1-20.
+1. Herlihy, Maurice P.; Wing, Jeannette M. **Linearizability: A Correctness Condition for Concurrent Objects.** ACM Transactions on Programming Languages and Systems 12 (3): 463–492. 1990.
+1. Lakshman, Avinash; Malik, Prashant. **Cassandra - A Decentralized Structured Storage System.** cs.cornell.edu. 2009-08-15.
+1. **RIAK PRODUCTS.** On-line on http://basho.com/products/#riak . 2016-05-25.
+1. Gerhard Weikum, Gottfried Vossen. **Transactional information systems: theory, algorithms, and the practice of concurrency control and recovery.** Morgan Kaufmann. 2002. ISBN 1-55860-508-8
+1. S. Chandrasekaran, O. Cooper, A. Deshpande, M. J. Franklin, J. M. Hellerstein, W. Hong, S. Krishnamurthy, S. R. Madden, F. Reiss, and M. A. Shah. **Telegraphcq: continuous dataflow processing.** In Proceedings of the 2003 ACM SIGMOD international conference on Management of data, pages 668–668. ACM, 2003.
 
 <!--
 XPMA CASE functional requirements
