@@ -12,32 +12,34 @@ The main goal of CSDDM is to define firm detailed boundaries for implementation 
 
 The model is structured as a **tree of items** (nodes and leafs), whereas each item has it's own set of **properties**. The model is depicted in a form of a table for better understandability. Table depiction is also the recommended one.
 
+FIXME inline the beautiful figure here before this table
+
 *Data model for a task T1 of a process P1*
 
-kind | nest | id | perm | uniq | constr | init | sync | consis | quant | impo
----  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | collection00 | add_rem | - | - | - | hardlink | write | 0 | medium
-a | 1 |     attr00 | no_rw | none | string_ascii_printable | "" | hardlink | write | 0 | medium
-a | 1 |     attr01 | write | none | int64 | 0 | hardlink | write | 0 | medium
-c | 1 |     collection00 | add_rem | - | - | - | hardlink | write | 0 | medium
-c | 0 | collection01 | add | - | - | - | hardlink | write | 0 | medium
-a | 1 |     attr00 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | write | 0 | medium
-a | 1 |     attr01 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | write | 0 | medium
-c | 1 |     collection02 | rem | - | - | - | hardlink | write | 0 | medium
-a | 2 |         attr00 | write | none | int64 | 0 | hardlink | write | 0 | medium
-c | 1 |     collection03 | add | - | - | - | hardlink | write | 0 | medium
-a | 2 |         attr00 | write | none | string_ascii_printable | "" | hardlink | write | 0 | medium
-a | 2 |         attr01 | no_rw | none | string_ascii_printable | "" | hardlink | write | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---
+c | 0 | collection00 | add_rem | - | - | - | hardlink | write
+a | 1 |     attr00 | no_rw | none | string_ascii_printable | "" | hardlink | write
+a | 1 |     attr01 | write | none | int64 | 0 | hardlink | write
+c | 1 |     collection00 | add_rem | - | - | - | hardlink | write
+c | 0 | collection01 | add | - | - | - | hardlink | write
+a | 1 |     attr00 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | write
+a | 1 |     attr01 | read | no_procs_yes_roles | string_ascii_printable | "" | hardlink | write
+c | 1 |     collection02 | rem | - | - | - | hardlink | write
+a | 2 |         attr00 | write | none | int64 | 0 | hardlink | write
+c | 1 |     collection03 | add | - | - | - | hardlink | write
+a | 2 |         attr00 | write | none | string_ascii_printable | "" | hardlink | write
+a | 2 |         attr01 | no_rw | none | string_ascii_printable | "" | hardlink | write
 
 *Data model for a task T2 (referencing content of T1) of the same process P1*
 
-kind | nest | id | perm | uniq | constr | init | sync | consis | quant | impo
----  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---    | ---   | ---
-c | 0 | collection05 | add_rem | - | - | - | hardlink | write | 0 | medium
-a | 1 |     attr00 | write | none | string_ascii_printable | "" | hardlink | write | 0 | medium
-a | 1 |     .collection00.attr01 | write | none | int64 | 0 | hardlink | write | 0 | medium
-a | 1 |     .collection01.collection02.attr00 | read | none | int64 | 0 | hardlink | CRDT | 0 | medium
-c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT | 0 | medium
+kind | nest | id | perm | uniq | constr | init | sync | consis
+---  | ---  | ---| ---  | ---  | ---    | ---  | ---  | ---
+c | 0 | collection05 | add_rem | - | - | - | hardlink | write
+a | 1 |     attr00 | write | none | string_ascii_printable | "" | hardlink | write
+a | 1 |     .collection00.attr01 | write | none | int64 | 0 | hardlink | write
+a | 1 |     .collection01.collection02.attr00 | read | none | int64 | 0 | hardlink | CRDT
+c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT
 
 *Collection and attribute life cycle*
 
@@ -183,6 +185,8 @@ c | 1 |     .collection01.collection03 | rem | - | - | - | hardlink | CRDT |
 - a reference to a collection or an attribute has the same consistency level as the referenced collection or referenced attribute respectively
 - this implies, that the underlying DB shall support e.g. [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control ) [8] and thus accurate timestamp (the timestamp shall be consistent enough in the network of all DB nodes potentially thousands of kilometers distant from each other) for each record (e.g. like Google Bigtable [1])
 
+#### Optional properties
+
 ***quant*** (quantity)
 
 - `0..N`
@@ -262,7 +266,16 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - derive from operational statistics (e.g. recording of user feedback in a "developer-enabled" UI – "has manually hidden attribute X in a table showing collection Y")
 - XPM 1.1
     - add better/advanced support (or a best practise) for *live* & *stream* data (e.g. live dashboard, oscillator chart) - in other words, be **reactive**
-        - it is against the persistence focus of XPM/CSDDM, but is very useful
+        - it seems against the persistence focus of XPM/CSDDM, but is very useful
+        - each record is *live* all the time by default including low- and extremely **high-rate** data (see Continuous dataflow processing [9])
+            - **find cases, in which *live* persistency is not an option**
+            - introduce implicit/explicit "kinds" of transactions?
+                - floating transaction boundary (e.g. based on first user input/record_intervention or on-demand using e.g. a clickable button)
+                - no transaction boundary in case of read-only
+                - limit transaction life time to only few minutes, because long-running transactions are very rare (and should also be) and can be easily handled in code in non-manual tasks
+            - make the "time" domain a mandatory property of each record (including adjustment to stream interfaces in non-manual tasks)
+            - how about persistence ("when/which to persist") criteria for high-rate data in an attribute?
+            - data event-/change- based (push) notifications (filtered/sampled_with_lower_frequency in case of high-rate)
     - rethink XDO to make it more tightly bound to tasks
         - introduce a clickable "tag" symbol applicable to all types of tasks and abandon the special data object completely?
     - support transformations in the process model more subtly (e.g. it's not important to show tasks performing language translation)
@@ -287,6 +300,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
 1. Lakshman, Avinash; Malik, Prashant. Cassandra - A Decentralized Structured Storage System. cs.cornell.edu. 2009-08-15.
 1. RIAK PRODUCTS. On-line on http://basho.com/products/#riak . 2016-05-25.
 1. Gerhard Weikum, Gottfried Vossen. Transactional information systems: theory, algorithms, and the practice of concurrency control and recovery. Morgan Kaufmann. 2002. ISBN 1-55860-508-8
+1. S. Chandrasekaran, O. Cooper, A. Deshpande, M. J. Franklin, J. M. Hellerstein, W. Hong, S. Krishnamurthy, S. R. Madden, F. Reiss, and M. A. Shah. Telegraphcq: continuous dataflow processing. In Proceedings of the 2003 ACM SIGMOD international conference on Management of data, pages 668–668. ACM, 2003.
 
 <!--
 XPMA CASE functional requirements
