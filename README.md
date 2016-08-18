@@ -265,6 +265,10 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
         - derive from operational statistics (e.g. recording of user feedback in a "developer-enabled" UI – "has manually hidden attribute X in a table showing collection Y")
 - XPM 1.1
+    - firmly define the used BPMN 2.0 subset (e.g. skip "Complex gateway")
+    - solve scalability issues (hundreds of roles, thousands of processes, ...)
+        - introduce roles grouping?
+        - is the "explicit grouping" of processes (e.g. with gateways and subprocess calls) enough or can we do better?
     - add better/advanced support (or a best practise) for *live* & *stream* data (e.g. live dashboard, oscillator chart) - in other words, be **reactive**
         - it seems against the persistence focus of XPM/CSDDM, but is very useful
         - each record is *live* all the time by default including low- and extremely **high-rate** data (see Continuous dataflow processing [9])
