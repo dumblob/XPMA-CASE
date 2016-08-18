@@ -264,6 +264,11 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
     - specify, that the particular attribute/collection schema should not be visualized, although it's rw
         - important for large collection schemas (tens and more attributes and collections), for dashboards, etc.
         - derive from operational statistics (e.g. recording of user feedback in a "developer-enabled" UI – "has manually hidden attribute X in a table showing collection Y")
+    - ***comm*** (comment)
+        - `any string`
+        - any comment related to the particular record
+        - this comment is used as-is e.g. in model doc, API doc, dev doc, user-facing doc, etc.
+        - try hard to avoid this attribute as it means the whole system is not decomposed enough nor well architectured
 - XPM 1.1
     - firmly define the used BPMN 2.0 subset (e.g. skip "Complex gateway")
     - solve scalability issues (hundreds of roles, thousands of processes, ...)
