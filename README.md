@@ -238,7 +238,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
     - `no_procs_yes_roles` e.g. language & translation settings
     - `every` e.g. temporary storage for outcomes of a user input
 - do not model transformations (combining & splitting) of modeled data as separate records, because they're not semantically part of the data model
-    - e.g. translations - there should be one and only one language in the model representing the "default" content (`no_procs_yes_roles`) and translations should be put e.g. to a separate global collection and they should be applied (overwrite the "default" content) in run time (e.g. using some script task)
+    - e.g. translations - there should be one and only one language in the model representing the "default" content (`no_procs_yes_roles`) and translations should be put e.g. to a separate global collection and they should be applied (overwrite the "default" content) in run time (e.g. using some service/script task)
 
 ### Remarks
 
@@ -270,6 +270,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - this comment is used as-is e.g. in model doc, API doc, dev doc, user-facing doc, etc.
         - try hard to avoid this attribute as it means the whole system is not decomposed enough nor well architectured
 - XPM 1.1
+    - support "hints" for auto-generation of indexes (extend service/script tasks?) or just skip any hints?
     - firmly define the used BPMN 2.0 subset (e.g. skip "Complex gateway")
     - solve scalability issues (hundreds of roles, thousands of processes, ...)
         - introduce roles grouping?
