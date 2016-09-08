@@ -271,6 +271,7 @@ kind = | nest = | id = | perm = | uniq = | constr = | init = | sync = | consis =
         - try hard to avoid this attribute as it means the whole system is not decomposed enough nor well architectured
 - XPM 1.1
     - support "hints" for auto-generation of indexes (extend service/script tasks?) or just skip any hints?
+    - add user- and process- specific data constraints (e.g. some role can only increase some number) - via another column? or via a second constraint routine in addition to the "default" routine defining the type globally (valid in all cases)
     - firmly define the used BPMN 2.0 subset (e.g. skip "Complex gateway")
     - solve scalability issues (hundreds of roles, thousands of processes, ...)
         - introduce roles grouping?
